@@ -19,8 +19,13 @@ class Animal:
                 f"Hidden: {self.hidden}}}")
 
     @classmethod
-    def alive_animals(cls) -> list[dict]:
+    def alive_animals(cls) -> list["Animal"]:
         return cls.alive
+
+    def damage_health(self, damage: int) -> None:
+        self.health -= damage
+        if self.health <= 0:
+            Animal.alive.remove(self)
 
 
 class Herbivore(Animal):
@@ -29,7 +34,7 @@ class Herbivore(Animal):
 
 
 class Carnivore(Animal):
-    def bite(self, other: Herbivore) -> None:
+    def bite(self, other: Animal) -> None:
         if isinstance(other, Herbivore) and other.hidden is False:
             other.health -= 50
         if other.health <= 0:
